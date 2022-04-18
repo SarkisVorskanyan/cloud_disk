@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.scss';
 import { Route, Routes } from 'react-router-dom';
-import AuthPage from './pages/AuthPage';
 import Header from './components/Header';
+import RegistrationPage from './pages/Registration';
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
       <Header />
       <div className='app'>
           <Routes>
-            <Route path='/home' element={<AuthPage />} />
+            <Route path='/' element={<RegistrationPage />} />
         </Routes>
       </div>
     </div>
