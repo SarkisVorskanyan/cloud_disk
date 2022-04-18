@@ -1,0 +1,21 @@
+@import '../../mixin/Mixin.scss';
+@import '../../variables/Variables.scss';
+
+.header_container{
+    display: flex;
+    justify-content: space-between;
+    background-color: $mainColor;
+    padding: 0 120px;
+}
+
+.navbar{
+    @include centerContainer();
+    ul{
+       display: flex;
+       li{
+           list-style-type: none;
+       }
+    }
+    
+    
+}
