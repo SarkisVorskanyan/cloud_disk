@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "AAEA,AAAA,UAAU,CAAA;ECDN,OAAO,EAAE,IAAI;EACb,eAAe,EAAE,MAAM;EACvB,WAAW,EAAE,MAAM;CDCtB",
+    "sources": [
+        "RegistrationPageStyles.scss",
+        "../../mixin/Mixin.scss"
+    ],
+    "names": [],
+    "file": "RegistrationPageStyles.css"
+}

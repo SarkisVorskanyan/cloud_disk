@@ -5,7 +5,7 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  background-color: "#77E7DA";
+  background-color: #77E7DA;
   padding: 0 120px;
 }
 
@@ -29,5 +29,13 @@
 
 .navbar ul li {
   list-style-type: none;
+}
+
+.navbar ul li a {
+  cursor: pointer;
+}
+
+.navbar ul li a:hover {
+  font-size: 18px;
 }
 /*# sourceMappingURL=Header.css.map */
