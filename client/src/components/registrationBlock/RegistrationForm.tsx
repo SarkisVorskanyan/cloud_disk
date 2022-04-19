@@ -1,27 +1,27 @@
 import React, { FC } from "react";
-import {
-    Formik,
-    FormikHelpers,
-    FormikProps,
-    Form,
-    Field,
-    FieldProps,
-  } from 'formik';
+import {Formik} from 'formik';
+import MainInput from "../UI/inputs/MainInput";
+import { AuthValidation } from "../../utils/validation/AuthValidation";
+import MainButton from "../UI/buttons/MainButton";
+import { AuthDataType } from "../../models/AuthDataType";
 
-  interface formValues {
-      email: string | undefined,
-      password: string | undefined
-  }
-  
+interface RegistrationFormProps {
+    sendData: (values: AuthDataType) => void,
+    title: string,
+    buttonText: string
 
-const RegistrationForm: FC = () => {
-    const initialValues: formValues = { email: '', password: '' };
+}
+
+const RegistrationForm: FC <RegistrationFormProps> = ({sendData, title, buttonText}) => {
+    const initialValues: AuthDataType = { email: '', password: '' };
     return (
         <Formik
             initialValues={initialValues}
-            //validationSchema={AuthValidation}
-            onSubmit={  (values) => {
+            validationSchema={AuthValidation}
+            onSubmit={ (values, action) => {
+                sendData(values)
                 console.log(values)
+                action.resetForm()
             }}
     >
         {({
@@ -32,10 +32,28 @@ const RegistrationForm: FC = () => {
               handleSubmit,
               setFieldValue
           }) => (
-            <form onSubmit={handleSubmit}>
-               <input value={values.email} name='email' onChange={handleChange} />
-               <button onClick={() => handleSubmit} />
-            </form>
+              <div className="form_container">
+                  <h2>{title}</h2>
+                  <form onSubmit={handleSubmit}>
+                      <MainInput 
+                                value={values.email}
+                                name='email'
+                                handleChange={handleChange}
+                                errors={errors.email}
+                                text={'email'} />
+                                
+                      <MainInput 
+                                value={values.password}
+                                name='password'
+                                handleChange={handleChange}
+                                errors={errors.password}
+                                text={'password'} />
+                                <div className="btn_container">
+                                    <MainButton someFunction={handleSubmit} label={buttonText} />
+                                </div>
+                  </form>
+              </div>
+            
         )}
     </Formik>
     )

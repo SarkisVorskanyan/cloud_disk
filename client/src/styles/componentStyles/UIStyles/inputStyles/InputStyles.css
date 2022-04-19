@@ -1,0 +1,32 @@
+.input_cntainer {
+  margin: 10px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+}
+
+.input_cntainer label {
+  font-size: 20px;
+  font-weight: 500;
+  color: #000;
+}
+
+.input_cntainer p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #E72831;
+  margin: 0;
+}
+
+.input {
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  border-color: #77E7DA;
+}
+/*# sourceMappingURL=InputStyles.css.map */
