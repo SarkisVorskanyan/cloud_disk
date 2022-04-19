@@ -1,0 +1,28 @@
+@import '../../mixin/Mixin.scss';
+@import '../../variables/Variables.scss';
+
+.container{
+    @include centerContainer();
+    div{
+        @include columnBlock();
+        h2{
+            font-size: 20px;
+        }
+    }
+}
+
+.form_container{
+    border: 5px aqua dotted;
+    border-radius: 30px;
+    //border-width: 5px;
+    padding: 35px;
+    margin-top: 50px;
+    form{
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.btn_container{
+    @include centerContainer()
+}

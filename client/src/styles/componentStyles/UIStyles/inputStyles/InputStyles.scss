@@ -1,0 +1,22 @@
+@import '../../../variables/Variables.scss';
+@import '../../../mixin/Mixin.scss';
+
+.input_cntainer{
+    margin: 10px 0;
+    @include columnBlock();
+    width: 100%;
+    label{
+       @include simpleText(20px, 500, #000);
+    }
+    p{
+        @include simpleText(14px, 400, $errorsColor);
+        margin: 0
+    }
+}
+
+.input{
+    font-size: $inputSIze;
+    padding: 10px;
+    border-radius: 10px;
+    border-color: $mainColor;
+}
