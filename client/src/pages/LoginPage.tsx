@@ -15,7 +15,7 @@ const LoginPage: FC = () => {
     }
 
     useEffect(() => {
-        console.log(error, 'error', message, 'message', user, 'user');
+        console.log(user, 'user');
         
     }, [error, message, user])
 

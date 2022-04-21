@@ -14,12 +14,25 @@
        display: flex;
        li{
            list-style-type: none;
-           a{
-               cursor: pointer;
-               &:hover{
-                   font-size: 18px;
-               }
+           p{
+            cursor: pointer;
+            text-decoration: none;
+            @include simpleText(18px, 900, #000);
+            margin: 0 10px;
+            &:hover{
+                color: #cb5528;
+            }
            }
+           .link {
+            cursor: pointer;
+            text-decoration: none;
+            @include simpleText(18px, 900, #000);
+            margin: 0 10px;
+            &:hover{
+                color: #cb5528;
+            }
+        }
        }
     }
 }
+
