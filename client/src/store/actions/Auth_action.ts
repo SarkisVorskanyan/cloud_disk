@@ -19,12 +19,23 @@ export const login = createAsyncThunk(
     'auth/login',
     async (data: AuthDataType, thunkAPI) => {
         try{
-            debugger
             const response = await instance.post<any>('auth/login', data)
             return response.data
         }
         catch (e) {
-            debugger
+            return thunkAPI.rejectWithValue(e)
+        }
+    }
+)
+
+export const auth = createAsyncThunk(
+    'auth/auth',
+    async (_, thunkAPI) => {
+        try{
+            const response = await instance.get<AuthDataType>('auth/auth')
+            return response.data
+        }
+        catch (e) {
             return thunkAPI.rejectWithValue(e)
         }
     }

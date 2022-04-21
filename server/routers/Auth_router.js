@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import Auth_contriller from "../controller/Auth_contriller.js";
+import Auth_middleware from "../middleware/Auth_middleware.js";
 
 const router = new Router
 
@@ -10,6 +11,7 @@ router.post('/registration', [
 ], Auth_contriller.registration)
 
 router.post('/login', Auth_contriller.login)
+router.get('/', Auth_middleware, Auth_contriller.auth)
 
 export default router
 

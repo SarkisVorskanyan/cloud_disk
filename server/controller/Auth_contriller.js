@@ -56,6 +56,23 @@ class AuthController {
         }
     }
 
+    async auth(req, res){
+        try {
+            const user = await User_model.findOne({_id: req.user.id})
+
+            const userDto = new User_dto(user)
+            const token = Token_service.generateToken({...userDto})
+
+            return res.json({
+                token,
+                user: userDto
+            })
+
+        } catch (e) {
+            return res.status(401).json({message: 'error controller'})
+        }
+    }
+
 
 }
 

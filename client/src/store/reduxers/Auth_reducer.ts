@@ -7,8 +7,8 @@ interface AuthState {
     load: boolean,
     error: null | string,
     message: string,
-    auth: boolean,
-    user: UserDataType | {},
+    isAuth: boolean,
+    user: UserDataType | null,
     success: boolean
 }
 
@@ -16,8 +16,8 @@ const initialState: AuthState = {
     load: false,
     error: null,
     message: '',
-    auth: false,
-    user: {},
+    isAuth: false,
+    user: null,
     success: false
 }
 
@@ -26,6 +26,10 @@ export const AuthSlice = createSlice({
     initialState,
     reducers: {
         resetAuth: () => initialState,
+        logOut: (state) => {
+            localStorage.removeItem('token')
+            state.isAuth = false
+        }
     },
     extraReducers: {
         [registration.pending.type]: (state) => {
@@ -50,8 +54,10 @@ export const AuthSlice = createSlice({
         [login.fulfilled.type]: (state, action: PayloadAction<any>) => {
             state.load = false
             state.user = action.payload
+            localStorage.setItem('token', action.payload.token)
             state.error = ''
             state.message = ''
+            state.isAuth = true
         },
         [login.rejected.type]: (state, action: PayloadAction<any>) => {
             state.load = false
@@ -63,6 +69,6 @@ export const AuthSlice = createSlice({
 
 })
 
-export const {resetAuth} = AuthSlice.actions
+export const {resetAuth, logOut} = AuthSlice.actions
 
 export default AuthSlice.reducer;
