@@ -7,12 +7,13 @@ class TokenServices{
     }
 
     validateToken(token){
+        //console.log(process.env.JWT_ACCESS_TOKEN)
         try {
             const userData = jwt.verify(token, process.env.JWT_ACCESS_TOKEN)
-            console.log(token);
+            //console.log(userData)
             return userData
         } catch (e) {
-            
+            console.log(e)
         }
     }
 }

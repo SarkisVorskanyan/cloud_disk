@@ -32,7 +32,7 @@ export const auth = createAsyncThunk(
     'auth/auth',
     async (_, thunkAPI) => {
         try{
-            const response = await instance.get<AuthDataType>('auth/auth')
+            const response = await instance.get<AuthDataType>('auth')
             return response.data
         }
         catch (e) {
