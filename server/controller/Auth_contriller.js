@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt'
 import { validationResult } from "express-validator";
 import { User_dto } from "../dto/User_dto.js";
 import Token_service from "../service/Token_service.js";
+import FileService from "../service/FileService.js";
+import File_model from "../models/File_model.js";
 
 
 class AuthController {
@@ -15,7 +17,7 @@ class AuthController {
 
             const {email, password} = req.body
             const candidate = await User_model.findOne({email})
-
+            //console.log(req.body)
             if(candidate){
                 return res.status(422).json({message: `This email ${email} already used`})
             }
@@ -23,6 +25,7 @@ class AuthController {
             const hashPassword = await bcrypt.hash(password, 7)
             const user = await new User_model({email, password: hashPassword})
             await user.save()
+            await FileService.createDir(new File_model({user: user.id, name: ''}))
             return res.json({message: `You success registered with ${email}`})
 
         }catch(e){

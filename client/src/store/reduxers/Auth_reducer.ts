@@ -1,5 +1,5 @@
 import { UserDataType } from './../../models/UserDataType';
-import { login, registration } from './../actions/Auth_action';
+import { login, registration, auth } from './../actions/Auth_action';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import { boolean } from 'yup';
 
@@ -25,7 +25,10 @@ export const AuthSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        resetAuth: () => initialState,
+        resetAuth: (state) => {
+            state.message = ''
+            state.error = ''
+        },
         logOut: (state) => {
             localStorage.removeItem('token')
             state.isAuth = false
@@ -60,6 +63,22 @@ export const AuthSlice = createSlice({
             state.isAuth = true
         },
         [login.rejected.type]: (state, action: PayloadAction<any>) => {
+            state.load = false
+            state.error = action.payload.response.data.message
+            state.message = action.payload.response.data.message
+        },
+
+        //check auth
+        [auth.pending.type]: (state) => {
+            state.load = true
+        },
+        [auth.fulfilled.type]: (state, action: PayloadAction<any>) => {
+            state.load = false
+            state.user = action.payload
+            localStorage.setItem('token', action.payload.token)
+            state.isAuth = true
+        },
+        [auth.rejected.type]: (state, action: PayloadAction<any>) => {
             state.load = false
             state.error = action.payload.response.data.message
             state.message = action.payload.response.data.message

@@ -12,7 +12,6 @@ export default function (req, res, next) {
         }
 
         const userData = Token_service.validateToken(token)
-        console.log(userData, 'userdata');
         if(!userData){
             return res.status(401).json({message: 'second'})
         }
