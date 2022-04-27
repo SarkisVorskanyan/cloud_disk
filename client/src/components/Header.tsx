@@ -15,6 +15,7 @@ const Header: FC = () => {
 
     return (
         <div className="header_container">
+            <div className="header_sub_container">
             <div>
                 <h1>Disk CLoud</h1>
             </div>
@@ -34,6 +35,7 @@ const Header: FC = () => {
                     </li>}
                 </ul>
             </div>
+        </div>
         </div>
     )
 }

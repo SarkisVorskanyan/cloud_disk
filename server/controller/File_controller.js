@@ -10,8 +10,8 @@ class FileController {
 
             if(!parentFile){
                 file.path = name
+                console.log(parentFile)
                 await FileService.createDir(file)
-                //console.log('start')
             }else{
                 file.path = `${parentFile.path}\\${file.name}`
                 await FileService.createDir(file)
@@ -22,7 +22,7 @@ class FileController {
             await file.save()
             res.json(file)
         } catch (e) {
-            console.log(e)
+            //console.log(e)
             return res.status(400).json(e)
         }
     }
@@ -30,7 +30,7 @@ class FileController {
     async fetchFiles(req, res){
         //console.log(req.user)
         try {
-            const files = await File_model.find({parent: req.params.parent})
+            const files = await File_model.find({user: req.user.id, parent: req.query.parent})
             return res.json(files)
         } catch (e) {
             console.log(e)

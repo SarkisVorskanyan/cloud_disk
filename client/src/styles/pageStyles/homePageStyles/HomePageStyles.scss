@@ -1,0 +1,31 @@
+@import '../../mixin/Mixin.scss';
+
+.file_container{
+    width: 100%;
+    border: 1px solid #000;
+    padding: 10px;
+    display: flex;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    justify-content: space-between;
+    div{
+        @include centerContainer()
+    }
+}
+
+.folder_img{
+    width: 200px;
+    height: 200px;
+    img{
+        width: 100%;
+    }
+}
+
+.file_name{
+    @include centerContainer();
+    margin: 0 10px;
+    p{
+        @include simpleText(20px, 600, #000)
+    }
+}
