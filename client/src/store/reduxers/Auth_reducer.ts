@@ -1,7 +1,6 @@
 import { UserDataType } from './../../models/UserDataType';
 import { login, registration, auth } from './../actions/Auth_action';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import { boolean } from 'yup';
 
 interface AuthState {
     load: boolean,

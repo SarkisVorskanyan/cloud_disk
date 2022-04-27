@@ -19,7 +19,8 @@ function App() {
 
   return (
     <div>
-      <Header />
+        <Header />
+      
       <div className='app'>
           <Routes>
             <Route path='/registration' element={isAuth ? <Navigate to='/' /> : <RegistrationPage />} />
