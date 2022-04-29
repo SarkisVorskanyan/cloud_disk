@@ -9,14 +9,17 @@
     border-radius: 10px;
     cursor: pointer;
     justify-content: space-between;
-    div{
+    &:hover{
+        transform: scale(1.02);
+    }
+    .file_sub_container{
         @include centerContainer()
     }
 }
 
 .folder_img{
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     img{
         width: 100%;
     }
@@ -24,8 +27,20 @@
 
 .file_name{
     @include centerContainer();
-    margin: 0 10px;
+    margin: 0 40px;
     p{
         @include simpleText(20px, 600, #000)
+    }
+}
+
+.textBlock{
+    @include columnBlock();
+    justify-content: space-between;
+    align-items: center;
+    p:first-child{
+        margin-top: 0;
+    }
+    p:last-child{
+        margin-bottom: 0;
     }
 }

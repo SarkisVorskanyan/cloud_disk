@@ -20,8 +20,8 @@
 }
 
 //buttons
-@mixin mainButton {
-    background-color: $btnMainColor;
+@mixin mainButton($background) {
+    background-color: $background;
     border: 0;
     border-radius: 56px;
     color: #fff;
@@ -58,4 +58,42 @@
     }
 }
 
+@mixin transition() {
+    transition: all .4s cubic-bezier(.215,.61,.355,1);
+}
+
+//modals
+
+@mixin modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: $backColor;
+    display: flex;
+    justify-content: center;
+    padding-top: 5rem;
+    z-index: 9;
+}
+
+@mixin modal_container($width, $heigth) {
+    padding: 2rem;
+    border-radius: 15px;
+    width: $width;
+    background-color: #fff;
+    height: $heigth;
+    flex-direction: column;
+}
+
+//loader
+
+@mixin loaderAnimation() {
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    transform-origin: center;
+    transform-box: border-box;
+}
   
+
+

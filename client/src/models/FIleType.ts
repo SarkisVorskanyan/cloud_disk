@@ -2,9 +2,9 @@ export interface FileType {
     _id: String,
     name: String,
     type: String,
-    size: Number,
+    size: number,
     path: String,
-    date: String,
+    date: Date,
     user: String,
     childs: Array<String>
 }
