@@ -3,10 +3,10 @@ import '../../../styles/componentStyles/UIStyles/inputStyles/InputStyles.scss'
 
 interface MainInputProps {
     value: string | undefined,
-    name: string,
+    name?: string,
     handleChange: (e: React.ChangeEvent<any>) => void,
     text: string,
-    errors: any
+    errors?: any
 
 }
 
@@ -19,7 +19,7 @@ const MainInput: FC <MainInputProps> = ({value, name, handleChange, text, errors
                    placeholder={text}
                    value={value}
                    name={name}
-                   onChange={handleChange} />
+                   onChange={(e) => handleChange(e)} />
                    <p>{errors}</p>
         </div>
         

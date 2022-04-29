@@ -49,7 +49,7 @@ const RegistrationForm: FC <RegistrationFormProps> = ({sendData, title, buttonTe
                                 errors={errors.password}
                                 text={'password'} />
                                 <div className="btn_container">
-                                    <MainButton someFunction={handleSubmit} label={buttonText} />
+                                    <MainButton background="#0078d0" someFunction={handleSubmit} label={buttonText} />
                                 </div>
                   </form>
               </div>

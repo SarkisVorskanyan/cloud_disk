@@ -3,12 +3,13 @@ import '../../../styles/componentStyles/UIStyles/btnStyles/BtnStyles.scss'
 
 interface MainButtonProps {
     label: string
-    someFunction: () => void
+    someFunction: () => void,
+    background: string
 }
 
-const MainButton: FC <MainButtonProps> = ({label, someFunction}) => {
+const MainButton: FC <MainButtonProps> = ({label, someFunction, background}) => {
     return (
-        <button type="button" onClick={() => someFunction()} className='main_button'>{label}</button>
+        <button style={{background}} type="button" onClick={() => someFunction()} className='main_button'>{label}</button>
     )
 }
 

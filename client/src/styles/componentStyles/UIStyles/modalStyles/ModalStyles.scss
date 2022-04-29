@@ -1,0 +1,20 @@
+@import '../../../mixin/Mixin.scss';
+
+.modal{
+    @include modal()
+}
+
+.modal_container{
+  @include modal_container(400px, 200px);
+  position: relative;
+}
+
+.title{
+    @include simpleText(21px, bold, #000);
+    margin: 0;
+    text-align: center;
+}
+
+.modal_header{
+  margin-bottom: 40px;
+}
