@@ -1,18 +1,17 @@
-import React, { FC, useEffect, useState } from "react";
-import { createPost } from "../../../store/actions/File_action";
+import React, { FC, useState } from "react";
+import { createFoldier } from "../../../store/actions/File_action";
 import { useAppDispatch } from "../../../store/hooks/Hooks";
 import '../../../styles/componentStyles/UIStyles/modalStyles/ModalStyles.scss'
-import CloseButton from "../buttons/CloseButton";
 import MainButton from "../buttons/MainButton";
 import MainInput from "../inputs/MainInput";
 import ModalHeader from "./modalBlocks/ModalHeader";
 
 interface ModalCreateFoldierProps {
     closeModal: () => void,
-    createDir: String | null
+    currentDir: String | null
 }
 
-const ModalCreateFoldier: FC <ModalCreateFoldierProps> = ({closeModal, createDir}) => {
+const ModalCreateFoldier: FC <ModalCreateFoldierProps> = ({closeModal, currentDir}) => {
 
     const [foldierName, setFoldierName] = useState<string>('')
     const dispatch = useAppDispatch()
@@ -23,10 +22,10 @@ const ModalCreateFoldier: FC <ModalCreateFoldierProps> = ({closeModal, createDir
 
     const createNewPost = () => {
         if(foldierName !== ''){
-            dispatch(createPost({
+            dispatch(createFoldier({
                 name: foldierName,
                 type: 'dir',
-                parent: createDir
+                parent: currentDir
             }))
             closeModal()
         }

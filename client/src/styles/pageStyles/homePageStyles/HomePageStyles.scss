@@ -1,5 +1,10 @@
 @import '../../mixin/Mixin.scss';
 
+.button_block{
+    margin-bottom: 20px;
+    display: flex;
+}
+
 .file_container{
     width: 100%;
     border: 1px solid #000;
