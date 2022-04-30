@@ -1,4 +1,5 @@
-import { fetchFiles, createPost } from './../actions/File_action';
+import { ID } from './../../models/Types';
+import { fetchFiles, uploadFile, createFoldier } from './../actions/File_action';
 import { FileType } from './../../models/FIleType';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
@@ -6,14 +7,18 @@ interface FileState {
      load: boolean,
      error: null | string,
      files: FileType[],
-     createDir: String | null
+     currentDir: String | null,
+     stackDir: any,
+     backDir: String | null
 }
 
 const initialState: FileState = {
      load: false,
      error: null,
      files: [],
-     createDir: null,
+     currentDir: null,
+     backDir: null,
+     stackDir: []
 }
 
 export const FileSlice = createSlice({
@@ -23,6 +28,19 @@ export const FileSlice = createSlice({
         resetFiles: (state) => {
             state.files = []
         },
+
+        setCurrentDir: (state, action: PayloadAction<ID>) => {
+            state.currentDir = action.payload
+        },
+
+        pushToStack: (state, action: PayloadAction<ID>) => {
+            state.stackDir.push(action.payload)
+        },
+
+        popOfStack: (state) => {
+            const back: ID = state.stackDir.pop()
+            state.backDir = back
+        }
     },
     extraReducers: {
         [fetchFiles.pending.type]: (state) => {
@@ -38,15 +56,29 @@ export const FileSlice = createSlice({
             state.error = action.payload.response.data.message
         },
         //--------
-        [createPost.pending.type]: (state) => {
+        [createFoldier.pending.type]: (state) => {
             state.load = true
         },
-        [createPost.fulfilled.type]: (state, action: PayloadAction<FileType>) => {
+        [createFoldier.fulfilled.type]: (state, action: PayloadAction<FileType>) => {
             state.load = false
             state.files.push(action.payload)
             state.error = ''
         },
-        [createPost.rejected.type]: (state, action: PayloadAction<any>) => {
+        [createFoldier.rejected.type]: (state, action: PayloadAction<any>) => {
+            state.load = false
+            state.error = action.payload.response.data.message
+        },
+
+        //--------
+        [uploadFile.pending.type]: (state) => {
+            state.load = true
+        },
+        [uploadFile.fulfilled.type]: (state, action: PayloadAction<FileType>) => {
+            state.load = false
+            state.files.push(action.payload)
+            state.error = ''
+        },
+        [uploadFile.rejected.type]: (state, action: PayloadAction<any>) => {
             state.load = false
             state.error = action.payload.response.data.message
         },
@@ -55,6 +87,6 @@ export const FileSlice = createSlice({
 
 })
 
-export const {resetFiles} = FileSlice.actions
+export const {resetFiles, setCurrentDir, pushToStack, popOfStack} = FileSlice.actions
 
 export default FileSlice.reducer;

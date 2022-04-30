@@ -20,7 +20,7 @@ const RegistrationForm: FC <RegistrationFormProps> = ({sendData, title, buttonTe
             validationSchema={AuthValidation}
             onSubmit={ (values, action) => {
                 sendData(values)
-                console.log(values)
+                //console.log(values)
                 action.resetForm()
             }}
     >
