@@ -19,7 +19,6 @@ const HomePage: FC = () => {
 
     useEffect(() => {
         dispatch(fetchFiles(currentDir))
-        console.log(stackDir, backDir);
     }, [currentDir])
 
     const createFoldier = () => setOpenModal(true)
@@ -31,8 +30,8 @@ const HomePage: FC = () => {
     }
 
     const backHandler = () => {
-       dispatch(popOfStack())
-        dispatch(setCurrentDir(backDir))
+        dispatch(popOfStack())        
+        dispatch(setCurrentDir(stackDir[stackDir.length - 1]))
     }
 
     const uploadFiles = (e: any) => {
