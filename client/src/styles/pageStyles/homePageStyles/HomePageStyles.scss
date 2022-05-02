@@ -1,4 +1,5 @@
 @import '../../mixin/Mixin.scss';
+@import '../../variables/Variables.scss';
 
 .button_block{
     margin-bottom: 20px;
@@ -17,8 +18,37 @@
     &:hover{
         transform: scale(1.02);
     }
+    &:hover .file_icons_container{
+        display: block;
+        display: flex;
+    }
     .file_sub_container{
         @include centerContainer()
+    }
+}
+
+.file_info_block{
+    @include centerContainer()
+}
+
+.file_icons_container{
+    @include centerContainer();
+    display: none;
+    .icon_block:first-child{
+        border: 1px $errorsColor solid;
+        padding: 10px;
+    }
+    .icon_block:last-child{
+        padding: 6px
+    }
+    .icon_block{
+        @include centerContainer();
+        border: 1px #566885 solid;
+        border-radius: 20px;
+        margin: 0 10px;
+        &:hover{
+            transform: scale(1.2);
+        }
     }
 }
 

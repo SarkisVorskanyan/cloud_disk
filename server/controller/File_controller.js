@@ -12,7 +12,6 @@ class FileController {
 
             if(!parentFile){
                 file.path = name
-                console.log(parentFile)
                 await FileService.createDir(file)
             }else{
                 file.path = `${parentFile.path}\\${file.name}`
@@ -85,6 +84,21 @@ class FileController {
         } catch (e) {
             console.log(e)
             return res.status(500).json({message: "Ошибка при загрузке"})
+        }
+    }
+
+    async downloadFile(req, res){
+        try {
+            const file = await File_model.findOne({_id: req.query.id, user: req.user.id})
+            const path = `${process.env.FILE_PATH}\\${req.user.id}\\${file.path}\\${file.name}`
+            if(fs.existsSync(path)){
+                return res.download(path, file.name)
+            }
+            return res.status(500).json({message: "Что то пошло не так при скачивании"})
+
+        } catch (e) {
+            console.log(e);
+            return res.status(500).json({message: "Возникла какое то проблема при скачивании"})
         }
     }
 }

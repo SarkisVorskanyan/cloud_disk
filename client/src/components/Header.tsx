@@ -2,21 +2,28 @@ import React, { FC, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks/Hooks";
 import { logOut } from "../store/reduxers/Auth_reducer";
+import { resetStackDir, setCurrentDir } from "../store/reduxers/File_reducer";
 import '../styles/componentStyles/headerStyles/Header.scss'
 
 const Header: FC = () => {
     const {error, message, user, isAuth} = useAppSelector(state => state.auth)
+    const {stackDir} = useAppSelector(state => state.file)
     const dispatch = useAppDispatch()
 
     const logout = () => {
         dispatch(logOut())
     }
 
+    const retunrHomePage = () => {
+        dispatch(resetStackDir())
+        dispatch(setCurrentDir(null))
+    }
+
 
     return (
         <div className="header_container">
             <div className="header_sub_container">
-            <div>
+            <div style={{cursor: 'pointer'}} onClick={retunrHomePage}>
                 <h1>Disk CLoud</h1>
             </div>
             {isAuth ? <div>
