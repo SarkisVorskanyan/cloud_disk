@@ -1,3 +1,4 @@
+import { DownloadRequest } from './../../models/DownloadResponse';
 import { ID } from './../../models/Types';
 import { UploadFilesType } from './../../models/UploadFilesType';
 import { NewPostType } from './../../models/NewPostType';
@@ -9,7 +10,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchFiles = createAsyncThunk(
     'file/fetchFiles',
     async (createDir: String | null, thunkAPI) => {
-        debugger
         try{
             const response = await instance.get<FileType[]>(`file${createDir ? '?parent=' + createDir : ''}`)
             return response.data
@@ -23,7 +23,6 @@ export const fetchFiles = createAsyncThunk(
 export const createFoldier = createAsyncThunk(
     'file/createFoldier',
     async (data: NewPostType, thunkAPI) => {
-        debugger
         try{
             const response = await instance.post<FileType[]>(`/file`, data)
             return response.data
@@ -47,6 +46,27 @@ export const uploadFile = createAsyncThunk(
         try{
            const response = await instance.post<FileType>(`/file/upload`, formData)
            return response.data
+        }
+        catch(e) {
+           return thunkAPI.rejectWithValue(e)
+        }
+    }
+)
+
+export const downloadFile = createAsyncThunk(
+    'file/downloadFile',
+    async (data: DownloadRequest, thunkAPI) => { 
+        debugger  
+        try{
+           const response = await instance.get<any>(`/file/download?id=${data.id}`,)
+           const url = window.URL.createObjectURL(new Blob([response.data]));
+           const link = document.createElement('a');
+           link.href = url;
+           link.download = data.name
+           //link.setAttribute('download', 'file.pdf'); //or any other extension
+           document.body.appendChild(link);
+           link.click();
+           link.remove()
         }
         catch(e) {
            return thunkAPI.rejectWithValue(e)

@@ -1,5 +1,5 @@
 import { ID } from './../../models/Types';
-import { fetchFiles, uploadFile, createFoldier } from './../actions/File_action';
+import { fetchFiles, uploadFile, createFoldier, downloadFile } from './../actions/File_action';
 import { FileType } from './../../models/FIleType';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
@@ -40,6 +40,10 @@ export const FileSlice = createSlice({
         popOfStack: (state) => {
             const back: ID = state.stackDir.pop()
             state.backDir = back
+        },
+
+        resetStackDir: (state) => {
+            state.stackDir = []
         }
     },
     extraReducers: {
@@ -82,11 +86,24 @@ export const FileSlice = createSlice({
             state.load = false
             state.error = action.payload.response.data.message
         },
+
+        //--------
+        [downloadFile.pending.type]: (state) => {
+            state.load = true
+        },
+        [downloadFile.fulfilled.type]: (state, action: PayloadAction<any>) => {
+            state.load = false
+            state.error = ''
+        },
+        [downloadFile.rejected.type]: (state, action: PayloadAction<any>) => {
+            state.load = false
+            state.error = action.payload.response.data.message
+        },
         
     }
 
 })
 
-export const {resetFiles, setCurrentDir, pushToStack, popOfStack} = FileSlice.actions
+export const {resetFiles, setCurrentDir, pushToStack, popOfStack, resetStackDir} = FileSlice.actions
 
 export default FileSlice.reducer;
