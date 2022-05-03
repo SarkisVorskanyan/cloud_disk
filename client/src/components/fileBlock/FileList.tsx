@@ -16,15 +16,23 @@ import {ReactComponent as DownloadSvg} from '../../assets/svg/homePageSvgBlock/d
 interface FIleListProps {
     state: FileType[],
     openFoldier: (id: ID, type: String) => void,
-    downloadFile: (id: String, name: String) => void
+    downloadFile: (id: string, name: string) => void,
+    openModalDeleteFile: () => void,
+    setIdForDeleteingFile: (id: ID) => void
 }
 
-const FileList: FC <FIleListProps> = ({state = [], openFoldier, downloadFile}) => {
+const FileList: FC <FIleListProps> = ({state = [], openFoldier, downloadFile, openModalDeleteFile, setIdForDeleteingFile}) => {
 
 
-    const handleDownload = (e: React.MouseEvent<HTMLDivElement>, id: String, name: String) => {
+    const handleDownload = (e: React.MouseEvent<HTMLDivElement>, id: any, name: any) => { //TODO
         e.stopPropagation()
         downloadFile(id, name) 
+    }
+
+    const openModalForDeleteFile = (e: React.MouseEvent<HTMLDivElement>, id: ID) => {
+        e.stopPropagation()
+        setIdForDeleteingFile(id)
+        openModalDeleteFile()
     }
 
 
@@ -52,7 +60,7 @@ const FileList: FC <FIleListProps> = ({state = [], openFoldier, downloadFile}) =
                         </div>
                         </div>
                         <div className='file_icons_container'>
-                            <div className='icon_block'>
+                            <div onClick={(e) => openModalForDeleteFile(e, item._id)} className='icon_block'>
                                 <TrashSvg />
                             </div>
                             {item.type !== 'dir' && <div onClick={(e) => handleDownload(e, item._id, item.name)} className='icon_block'>

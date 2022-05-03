@@ -17,5 +17,5 @@ export const instance = axios.create({
             let progress = Math.round((progressEvent.loaded * 100) / totalLength)
             console.log(progress)
         }
-    }
+    },
 })

@@ -9,7 +9,7 @@ class FileController {
             const {name, type, parent} = req.body
             const file = new File_model({name, type, parent, user: req.user.id})
             const parentFile = await File_model.findOne({_id: parent})
-
+            console.log(file);
             if(!parentFile){
                 file.path = name
                 await FileService.createDir(file)
@@ -17,7 +17,6 @@ class FileController {
                 file.path = `${parentFile.path}\\${file.name}`
                 await FileService.createDir(file)
                 parentFile.childs.push(file._id)
-                console.log('end')
                 await parentFile.save()
             }
             await file.save()
@@ -40,7 +39,7 @@ class FileController {
     async uploadFile(req, res){
         try {
             const file = req.files.file
-            console.log(req.files.file);
+            //console.log(req.files.file)
 
             const parent = await File_model.findOne({user: req.user.id, _id: req.body.parent})
             const user = await User_model.findOne({_id: req.user.id})
@@ -67,11 +66,15 @@ class FileController {
 
             const type = file.name.split('.').pop()
 
+            // if(parent){
+            //     filepath = `${process.env.FILE_PATH} \\ ${file.name}`
+            // }
+
             const dbFile = new File_model({
                 name: file.name,
                 type,
                 size: file.size,
-                path: parent?.path,
+                path: parent.path,
                 parent: parent?._id,
                 user: user._id
             })
@@ -99,6 +102,24 @@ class FileController {
         } catch (e) {
             console.log(e);
             return res.status(500).json({message: "Возникла какое то проблема при скачивании"})
+        }
+    }
+
+    async deleteFile(req, res){
+        try {
+            const file = await File_model.findOne({_id: req.query.id, user: req.user.id})
+
+            if(!file){
+                return res.json(400).res.status({message: 'Файл не найден'})
+            }
+            FileService.deleteFile(file)
+            await file.remove()
+            return res.json({message: 'Файл удален успешно'})
+
+
+        } catch (e) {
+            console.log(e)
+            return res.status(500).json({message: 'Произашло какое то ошибка на еервере'})
         }
     }
 }

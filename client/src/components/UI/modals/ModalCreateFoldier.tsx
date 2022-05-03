@@ -35,7 +35,7 @@ const ModalCreateFoldier: FC <ModalCreateFoldierProps> = ({closeModal, currentDi
 
     return (
             <div onClick={closeModal} className="modal">
-                <div onClick={(e) => e.stopPropagation()} className="modal_container">
+                <div onClick={(e) => e.stopPropagation()} className="modal_create_file_container">
                     <ModalHeader closeModal={closeModal} title={'Создать папку'} />
                     <div className="modal_content">
                         <MainInput text="Имя папки"

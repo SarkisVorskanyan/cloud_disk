@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage';
 import { auth } from './store/actions/Auth_action';
 import ModalCreateFoldier from './components/UI/modals/ModalCreateFoldier';
 import { resetFiles } from './store/reduxers/File_reducer';
+import Toaster from './components/UI/toasters/Toaster';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
 
   return (
     <div>
+      <Toaster />
         <Header />
       <div className='app'>
           <Routes>

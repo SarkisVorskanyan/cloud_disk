@@ -1,11 +1,12 @@
 import { ID } from './../../models/Types';
-import { fetchFiles, uploadFile, createFoldier, downloadFile } from './../actions/File_action';
+import { fetchFiles, uploadFile, createFoldier, downloadFile, deleteFile } from './../actions/File_action';
 import { FileType } from './../../models/FIleType';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 interface FileState {
      load: boolean,
      error: null | string,
+     message: string | undefined,
      files: FileType[],
      currentDir: String | null,
      stackDir: any,
@@ -15,6 +16,7 @@ interface FileState {
 const initialState: FileState = {
      load: false,
      error: null,
+     message: '',
      files: [],
      currentDir: null,
      backDir: null,
@@ -33,6 +35,7 @@ export const FileSlice = createSlice({
             state.currentDir = action.payload
         },
 
+        //work with stack
         pushToStack: (state, action: PayloadAction<ID>) => {
             state.stackDir.push(action.payload)
         },
@@ -44,6 +47,10 @@ export const FileSlice = createSlice({
 
         resetStackDir: (state) => {
             state.stackDir = []
+        },
+        //_____________
+        removeFileById: (state, action: PayloadAction<ID>) => {
+            state.files.splice(state.files.findIndex((file) => file._id === action.payload), 1);
         }
     },
     extraReducers: {
@@ -64,6 +71,9 @@ export const FileSlice = createSlice({
             state.load = true
         },
         [createFoldier.fulfilled.type]: (state, action: PayloadAction<FileType>) => {
+            // return (
+            //     state.files = [...state.files, action.payload]
+            // )
             state.load = false
             state.files.push(action.payload)
             state.error = ''
@@ -99,11 +109,24 @@ export const FileSlice = createSlice({
             state.load = false
             state.error = action.payload.response.data.message
         },
+        //____________
+        [deleteFile.pending.type]: (state) => {
+            state.load = true
+        },
+        [deleteFile.fulfilled.type]: (state, action: PayloadAction<any>) => {
+            state.load = false
+            state.error = ''
+            state.message = action.payload.message
+        },
+        [deleteFile.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.load = false
+            state.error = action.payload
+        },
         
     }
 
 })
 
-export const {resetFiles, setCurrentDir, pushToStack, popOfStack, resetStackDir} = FileSlice.actions
+export const {resetFiles, setCurrentDir, pushToStack, popOfStack, resetStackDir, removeFileById} = FileSlice.actions
 
 export default FileSlice.reducer;

@@ -1,10 +1,10 @@
-import { DownloadRequest } from './../../models/DownloadResponse';
 import { ID } from './../../models/Types';
 import { UploadFilesType } from './../../models/UploadFilesType';
 import { NewPostType } from './../../models/NewPostType';
 import { FileType } from './../../models/FIleType';
 import { instance } from './../api/Api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { DownloadRequest } from '../../models/DownloadResponseType';
 
 
 export const fetchFiles = createAsyncThunk(
@@ -23,6 +23,7 @@ export const fetchFiles = createAsyncThunk(
 export const createFoldier = createAsyncThunk(
     'file/createFoldier',
     async (data: NewPostType, thunkAPI) => {
+        debugger
         try{
             const response = await instance.post<FileType[]>(`/file`, data)
             return response.data
@@ -36,6 +37,7 @@ export const createFoldier = createAsyncThunk(
 export const uploadFile = createAsyncThunk(
     'file/uploadFile',
     async (data: UploadFilesType, thunkAPI) => {
+        debugger
         const {file, parent} = data
         const formData = new FormData()
         formData.append('file', file)
@@ -56,20 +58,32 @@ export const uploadFile = createAsyncThunk(
 export const downloadFile = createAsyncThunk(
     'file/downloadFile',
     async (data: DownloadRequest, thunkAPI) => { 
-        debugger  
         try{
            const response = await instance.get<any>(`/file/download?id=${data.id}`,)
-           const url = window.URL.createObjectURL(new Blob([response.data]));
+           const url = window.URL.createObjectURL(new Blob([response.data],  {type: 'application / PDF'}));
            const link = document.createElement('a');
            link.href = url;
            link.download = data.name
-           //link.setAttribute('download', 'file.pdf'); //or any other extension
            document.body.appendChild(link);
            link.click();
            link.remove()
         }
         catch(e) {
            return thunkAPI.rejectWithValue(e)
+        }
+    }
+)
+
+export const deleteFile = createAsyncThunk(
+    'file/createFoldier',
+    async (id: ID, thunkAPI) => {
+        debugger
+        try{
+            const response = await instance.delete<ID>(`/file/?id=${id}`)
+            return response.data
+        }
+        catch (e) {
+            return thunkAPI.rejectWithValue(e)
         }
     }
 )
