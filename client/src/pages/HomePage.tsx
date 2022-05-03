@@ -67,7 +67,7 @@ const HomePage: FC = () => {
         setDragView(false)
     }
 
-    const downloadFileofServer = (id: String, name: String) => {
+    const downloadFileofServer = (id: any, name: any) => {
         dispatch(downloadFile({id, name}))
     }
 

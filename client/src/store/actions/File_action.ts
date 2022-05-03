@@ -55,15 +55,13 @@ export const uploadFile = createAsyncThunk(
 
 export const downloadFile = createAsyncThunk(
     'file/downloadFile',
-    async (data: DownloadRequest, thunkAPI) => { 
-        debugger  
+    async (data: any, thunkAPI) => { 
         try{
            const response = await instance.get<any>(`/file/download?id=${data.id}`,)
            const url = window.URL.createObjectURL(new Blob([response.data]));
            const link = document.createElement('a');
            link.href = url;
            link.download = data.name
-           //link.setAttribute('download', 'file.pdf'); //or any other extension
            document.body.appendChild(link);
            link.click();
            link.remove()

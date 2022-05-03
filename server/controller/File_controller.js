@@ -67,6 +67,11 @@ class FileController {
 
             const type = file.name.split('.').pop()
 
+            // const filePath = file.name
+            // if(parent){
+            //     filePath = `${process.env.FILE_PATH}\\${file.name}`
+            // }
+
             const dbFile = new File_model({
                 name: file.name,
                 type,
@@ -99,6 +104,23 @@ class FileController {
         } catch (e) {
             console.log(e);
             return res.status(500).json({message: "Возникла какое то проблема при скачивании"})
+        }
+    }
+
+    async deleteFile(req, res){
+        try {
+            const file = await File_model.findOne({_id: req.query.id, user: req.user.id})
+
+            if(!file){
+                return res.status(400).json({message: 'Файл не найден'})
+            }
+
+            FileService.deleteFile(file)
+            await file.remove()
+            return res.json({message: 'Файл удален успешно!'})
+
+        } catch (e) {
+            return res.status(500).json({message: 'Произошла какое то ошибка в сервере'})
         }
     }
 }
