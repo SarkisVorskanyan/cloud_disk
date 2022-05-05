@@ -19,12 +19,11 @@ class FileService {
 
     deleteFile(file){
         const path = this.getPath(file)
+        console.log(file, path);
             if(file.type === 'dir'){
                 fs.rmdirSync(path)
-                console.log('dir')
             }else{
                 fs.unlinkSync(path)
-                console.log('dont dir')
             }
     }
 

@@ -9,7 +9,6 @@ class FileController {
             const {name, type, parent} = req.body
             const file = new File_model({name, type, parent, user: req.user.id})
             const parentFile = await File_model.findOne({_id: parent})
-            console.log(file);
             if(!parentFile){
                 file.path = name
                 await FileService.createDir(file)
@@ -39,8 +38,6 @@ class FileController {
     async uploadFile(req, res){
         try {
             const file = req.files.file
-            //console.log(req.files.file)
-
             const parent = await File_model.findOne({user: req.user.id, _id: req.body.parent})
             const user = await User_model.findOne({_id: req.user.id})
     
@@ -66,9 +63,9 @@ class FileController {
 
             const type = file.name.split('.').pop()
 
-            const filePath = file.name
+            let filePath = file.name
             if(parent){
-                filePath = `${process.env.FILE_PATH}\\${file.name}`
+                filePath = `${parent.path}\\${file.name}`
             }
             const dbFile = new File_model({
                 name: file.name,
@@ -119,7 +116,7 @@ class FileController {
 
         } catch (e) {
             console.log(e)
-            return res.status(500).json({message: 'Произашло какое то ошибка на еервере'})
+            return res.status(500).json({message: 'Файл не пуст'})
 
         }
     }

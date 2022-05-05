@@ -59,8 +59,8 @@ export const downloadFile = createAsyncThunk(
     'file/downloadFile',
     async (data: DownloadRequest, thunkAPI) => { 
         try{
-           const response = await instance.get<any>(`/file/download?id=${data.id}`,)
-           const url = window.URL.createObjectURL(new Blob([response.data],  {type: 'application / PDF'}));
+           const response = await instance.get<File>(`/file/download?id=${data.id}`,)
+           const url = window.URL.createObjectURL(new Blob([response.data]));
            const link = document.createElement('a');
            link.href = url;
            link.download = data.name

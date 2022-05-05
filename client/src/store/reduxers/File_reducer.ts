@@ -122,10 +122,12 @@ export const FileSlice = createSlice({
             state.load = false
             state.error = ''
             state.message = action.payload.message
+            toast.success(state.message)
         },
         [deleteFile.rejected.type]: (state, action: PayloadAction<string>) => {
             state.load = false
             state.error = action.payload
+            toast.error(state.error)
         },
         
     }
