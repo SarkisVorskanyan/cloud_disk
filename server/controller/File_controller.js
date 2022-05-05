@@ -79,7 +79,7 @@ class FileController {
                 user: user._id
             })
 
-            await dbFile.save()
+            await dbFile.save()  
             await user.save()
 
             res.json(dbFile)
