@@ -30,7 +30,6 @@ const HomePage: FC = () => {
 
 
 
-    //open and close modals
     const openCreateFoldierModal = () => setOpenCreateFileModal(true)
     const closeCreateFoldierModal = () => setOpenCreateFileModal(false)
 
@@ -39,7 +38,6 @@ const HomePage: FC = () => {
         setIdForDeleteingFile(null)
         setOpenDeleteFileModal(false)
     }
-    //____________________
 
     const openFoldier = (id: ID, type: String) => {       
             if(type === 'dir'){

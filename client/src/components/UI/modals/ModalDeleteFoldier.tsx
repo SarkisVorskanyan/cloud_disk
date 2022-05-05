@@ -22,15 +22,12 @@ const ModalDeleteFoldier: FC <ModalDeleteFoldierProps> = ({closeModal, idForDele
     const {error, message} = useAppSelector(state => state.file)
 
 
-    
+
     const removeFile = () => {
         closeModal()
         dispatch(deleteFile(idForDeletingFile))
-        dispatch(removeFileById(idForDeletingFile))
         if(!error){
-            toast.success(message)
-        }else{
-            toast.error(error)
+            dispatch(removeFileById(idForDeletingFile))
         }
     }
 

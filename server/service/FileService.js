@@ -30,6 +30,7 @@ class FileService {
 
     getPath(file){
         return `${process.env.FILE_PATH}\\${file.user}\\${file.path}`
+
     }
 }
 

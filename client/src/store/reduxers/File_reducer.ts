@@ -2,6 +2,11 @@ import { ID } from './../../models/Types';
 import { fetchFiles, uploadFile, createFoldier, downloadFile, deleteFile } from './../actions/File_action';
 import { FileType } from './../../models/FIleType';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure()
+
+
 
 interface FileState {
      load: boolean,
@@ -48,7 +53,7 @@ export const FileSlice = createSlice({
         resetStackDir: (state) => {
             state.stackDir = []
         },
-        //_____________
+
         removeFileById: (state, action: PayloadAction<ID>) => {
             state.files.splice(state.files.findIndex((file) => file._id === action.payload), 1);
         }

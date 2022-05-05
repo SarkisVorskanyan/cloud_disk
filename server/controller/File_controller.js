@@ -66,15 +66,15 @@ class FileController {
 
             const type = file.name.split('.').pop()
 
-            // if(parent){
-            //     filepath = `${process.env.FILE_PATH} \\ ${file.name}`
-            // }
-
+            const filePath = file.name
+            if(parent){
+                filePath = `${process.env.FILE_PATH}\\${file.name}`
+            }
             const dbFile = new File_model({
                 name: file.name,
                 type,
                 size: file.size,
-                path: parent.path,
+                path: filePath,
                 parent: parent?._id,
                 user: user._id
             })
@@ -120,6 +120,7 @@ class FileController {
         } catch (e) {
             console.log(e)
             return res.status(500).json({message: 'Произашло какое то ошибка на еервере'})
+
         }
     }
 }
