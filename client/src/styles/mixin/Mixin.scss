@@ -7,6 +7,12 @@
     align-items: center;
 }
 
+@mixin spaceAroundContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
 @mixin columnBlock {
     display: flex;
     flex-direction: column;

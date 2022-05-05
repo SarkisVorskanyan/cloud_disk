@@ -1,11 +1,17 @@
 import { ID } from './../../models/Types';
-import { fetchFiles, uploadFile, createFoldier, downloadFile } from './../actions/File_action';
+import { fetchFiles, uploadFile, createFoldier, downloadFile, deleteFile } from './../actions/File_action';
 import { FileType } from './../../models/FIleType';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure()
+
+
 
 interface FileState {
      load: boolean,
      error: null | string,
+     message: string | undefined,
      files: FileType[],
      currentDir: String | null,
      stackDir: any,
@@ -15,6 +21,7 @@ interface FileState {
 const initialState: FileState = {
      load: false,
      error: null,
+     message: '',
      files: [],
      currentDir: null,
      backDir: null,
@@ -44,6 +51,10 @@ export const FileSlice = createSlice({
 
         resetStackDir: (state) => {
             state.stackDir = []
+        },
+
+        removeFileById: (state, action: PayloadAction<ID>) => {
+            state.files.splice(state.files.findIndex((file) => file._id === action.payload), 1);
         }
     },
     extraReducers: {
@@ -99,11 +110,27 @@ export const FileSlice = createSlice({
             state.load = false
             state.error = action.payload.response.data.message
         },
+
+        //____________
+        [deleteFile.pending.type]: (state) => {
+            state.load = true
+        },
+        [deleteFile.fulfilled.type]: (state, action: PayloadAction<any>) => {
+            state.load = false
+            state.error = ''
+            state.message = action.payload.message
+            toast.success(state.message)
+        },
+        [deleteFile.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.error = action.payload
+            state.load = false
+            toast.error(state.error)
+        },
         
     }
 
 })
 
-export const {resetFiles, setCurrentDir, pushToStack, popOfStack, resetStackDir} = FileSlice.actions
+export const {resetFiles, setCurrentDir, pushToStack, popOfStack, resetStackDir, removeFileById} = FileSlice.actions
 
 export default FileSlice.reducer;

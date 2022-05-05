@@ -71,3 +71,17 @@ export const downloadFile = createAsyncThunk(
         }
     }
 )
+
+export const deleteFile = createAsyncThunk(
+    'file/deleteFile',
+    async (id: ID, thunkAPI) => {
+        debugger
+        try{
+            const response = await instance.delete<ID>(`/file/?id=${id}`)
+            return response.data
+        }
+        catch (e: any) {
+            return thunkAPI.rejectWithValue(e.response.data.message)
+        }
+    }
+)

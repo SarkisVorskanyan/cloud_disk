@@ -4,9 +4,18 @@
     @include modal()
 }
 
-.modal_container{
+.modal_create_file_container{
   @include modal_container(400px, 200px);
   position: relative;
+}
+
+.modal_delete_file_container{
+  @include modal_container(400px, 200px);
+  position: relative;
+}
+
+.btn_container_space_around{
+  @include spaceAroundContainer()
 }
 
 .title{

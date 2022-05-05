@@ -11,12 +11,15 @@ import '../styles/pageStyles/homePageStyles/HomePageStyles.scss'
 import UploadBtn from '../components/UI/buttons/UploadBtn'
 import DragField from '../components/UI/dragField/DragField'
 import { StopAllEvents } from '../utils/StopAllEvents'
+import ModalDeleteFoldier from '../components/UI/modals/ModalDeleteFoldier'
 
 const HomePage: FC = () => {
 
     const dispatch = useAppDispatch()
     const {files, load, error, currentDir, stackDir, backDir} = useAppSelector(state => state.file)
-    const [openModal, setOpenModal] = useState<boolean>(false)
+    const [openCreateFileModal, setOpenCreateFileModal] = useState<boolean>(false)
+    const [openDeleteFileModal, setOpenDeleteFileModal] = useState<boolean>(false)
+    const [idForDeletingFile, setIdForDeleteingFile] = useState<ID>(null)
     const [dragView, setDragView] = useState<boolean>(false)
 
 
@@ -24,13 +27,16 @@ const HomePage: FC = () => {
         dispatch(fetchFiles(currentDir))
     }, [currentDir])
 
-    useEffect(() => {
-        console.log(dragView, 'dragView');
-        
-    }, [dragView])
 
-    const createFoldier = () => setOpenModal(true)
-    const closeModal = () => setOpenModal(false)
+
+    const openCreateFoldierModal = () => setOpenCreateFileModal(true)
+    const closeCreateFoldierModal = () => setOpenCreateFileModal(false)
+
+    const openModalDeleteFile = () => setOpenDeleteFileModal(true)
+    const closeDeleteFileModal = () => {
+        setIdForDeleteingFile(null)
+        setOpenDeleteFileModal(false)
+    }
 
     const openFoldier = (id: ID, type: String) => {       
             if(type === 'dir'){
@@ -67,29 +73,35 @@ const HomePage: FC = () => {
         setDragView(false)
     }
 
-    const downloadFileofServer = (id: any, name: any) => {
+    const downloadFileofServer = (id: string, name: string) => {
         dispatch(downloadFile({id, name}))
     }
 
     return (
         !dragView ?
         <div style={{height: '100vh'}} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler} >
-            {openModal && <ModalCreateFoldier 
-                                closeModal={closeModal}
+            {openCreateFileModal && <ModalCreateFoldier 
+                                closeModal={closeCreateFoldierModal}
                                 currentDir={currentDir}
+            />}
+            {openDeleteFileModal && <ModalDeleteFoldier 
+                                idForDeletingFile={idForDeletingFile}
+                                closeModal={closeDeleteFileModal}
             />}
             {load && <Spinner />}
            <h1>Главная страница</h1>
            <div className='button_block'>
                 {stackDir.length ? <MainButton background='#0078d0' label='Назадь' someFunction={backHandler}  /> : ''}
                 <div style={{marginLeft: stackDir.length ? 20 : 0, marginRight: 20}}>
-                    <MainButton background='#36E733' label='Создать папку' someFunction={createFoldier}  />
+                    <MainButton background='#36E733' label='Создать папку' someFunction={openCreateFoldierModal}  />
                 </div>
                 <UploadBtn background='#F07427' label='Загрузить файлы' someFunction={uploadFiles} />
            </div>
            <FileList  
                     state={files}
                     downloadFile={downloadFileofServer}
+                    openModalDeleteFile={openModalDeleteFile}
+                    setIdForDeleteingFile={setIdForDeleteingFile}
                     openFoldier={openFoldier} /> 
         </div>
         : 

@@ -1,4 +1,4 @@
 export interface DownloadRequest {
-    id: string | null,
-    name: string | null
+    id: string,
+    name: string 
 }
