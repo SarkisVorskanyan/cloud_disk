@@ -10,12 +10,12 @@ export const instance = axios.create({
         // 'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         'Authorization': `Bearer ${token}`
     },
-    onUploadProgress: progressEvent => {
-        const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
-        console.log('total', totalLength)
-        if (totalLength) {
-            let progress = Math.round((progressEvent.loaded * 100) / totalLength)
-            console.log(progress)
-        }
-    },
+    // onUploadProgress: progressEvent => {
+    //     const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
+    //     console.log('total', totalLength)
+    //     if (totalLength) {
+    //         let progress = Math.round((progressEvent.loaded * 100) / totalLength)
+    //         console.log(progress)
+    //     }
+    // },
 })

@@ -12,12 +12,15 @@ import UploadBtn from '../components/UI/buttons/UploadBtn'
 import DragField from '../components/UI/dragField/DragField'
 import { StopAllEvents } from '../utils/StopAllEvents'
 import ModalDeleteFoldier from '../components/UI/modals/ModalDeleteFoldier'
+import ModalFileUpload from '../components/UI/modals/ModalFileUpload'
+import { showUploadModal } from '../store/reduxers/UploadFiles_reducer'
 
 
 const HomePage: FC = () => {
 
     const dispatch = useAppDispatch()
     const {files, load, error, currentDir, stackDir, backDir} = useAppSelector(state => state.file)
+    const {isVisible, uploadFilesList} = useAppSelector(state => state.uploadFile)
     const [openCreateFileModal, setOpenCreateFileModal] = useState<boolean>(false)
     const [openDeleteFileModal, setOpenDeleteFileModal] = useState<boolean>(false)
     const [idForDeletingFile, setIdForDeleteingFile] = useState<ID>(null)
@@ -26,10 +29,12 @@ const HomePage: FC = () => {
 
     useEffect(() => {
         dispatch(fetchFiles(currentDir))
+        console.log(uploadFilesList);
+        
     }, [currentDir])
 
 
-
+    //Work with modals
     const openCreateFoldierModal = () => setOpenCreateFileModal(true)
     const closeCreateFoldierModal = () => setOpenCreateFileModal(false)
 
@@ -38,6 +43,11 @@ const HomePage: FC = () => {
         setIdForDeleteingFile(null)
         setOpenDeleteFileModal(false)
     }
+
+    const closeModalUpload = () => {
+        dispatch(showUploadModal(false))
+    }
+    //_____________
 
     const openFoldier = (id: ID, type: String) => {       
             if(type === 'dir'){
@@ -90,6 +100,10 @@ const HomePage: FC = () => {
             {openDeleteFileModal && <ModalDeleteFoldier 
                                 idForDeletingFile={idForDeletingFile}
                                 closeModal={closeDeleteFileModal}
+            />}
+            {isVisible && <ModalFileUpload 
+                                 closeModal={closeModalUpload}
+                                 uploadFilesList={uploadFilesList}
             />}
             {load && <Spinner />}
            <h1>Главная страница</h1>

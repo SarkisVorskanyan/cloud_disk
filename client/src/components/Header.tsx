@@ -32,13 +32,13 @@ const Header: FC = () => {
             <div className="navbar">
                 <ul>
                     {!isAuth && <li>
-                        <Link className="link" to="login">Login</Link>
+                        <Link className="link" to="login">Логин</Link>
                     </li>}
                     {!isAuth && <li>
-                        <Link className="link" to="registration">Registration</Link>
+                        <Link className="link" to="registration">Регистрация</Link>
                     </li> }
                     {isAuth && <li onClick={logout}>
-                        <p className="link">Log out</p>
+                        <p className="link">Выход</p>
                     </li>}
                 </ul>
             </div>

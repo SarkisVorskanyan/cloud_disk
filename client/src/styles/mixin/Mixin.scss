@@ -13,6 +13,12 @@
     align-items: center;
 }
 
+@mixin spaceBetweemContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 @mixin columnBlock {
     display: flex;
     flex-direction: column;
@@ -90,6 +96,7 @@
     background-color: #fff;
     height: $heigth;
     flex-direction: column;
+    position: relative;
 }
 
 //loader

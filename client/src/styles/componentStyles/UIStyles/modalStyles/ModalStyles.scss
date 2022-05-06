@@ -1,4 +1,5 @@
 @import '../../../mixin/Mixin.scss';
+@import '../../../variables/Variables.scss';
 
 .modal{
     @include modal()
@@ -6,18 +7,20 @@
 
 .modal_create_file_container{
   @include modal_container(400px, 200px);
-  position: relative;
-}
-
-.modal_delete_file_container{
-
-  @include modal_container(400px, 200px);
-  position: relative;
 }
 
 .modal_delete_file_container{
   @include modal_container(400px, 200px);
-  position: relative;
+}
+
+.modal_upload_file_container{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.modal_upload_file_subContainer{
+  @include modal_container(400px, 450px);
 }
 
 .btn_container_space_around{
@@ -36,4 +39,57 @@
 
 .btn_container_space_around{
   @include spaceAroundContainer()
+}
+
+.files_container{
+  overflow-y: auto;
+  height: 90%;
+  .file_item{
+    padding: 5px;
+    border: 1px solid #000;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    .file_header{
+      display: flex;
+      @include spaceBetweemContainer();
+      margin-bottom: 10px;
+      h3{
+        margin: 0;
+      }
+      span{
+        border: 1px solid #000;
+        @include centerContainer();
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 50px;
+        &:hover{
+          background-color: $mainColor;
+        }
+      }
+    }
+    .file_footer{
+      padding: 0 10px;
+      .progress{
+        width: 100%;
+        height: 35px;
+        background-color: rgb(125, 122, 118);
+        position: relative;
+        border-radius: 10px;
+        p{
+          position: absolute;
+          z-index: 2;
+          left: 50%;
+          top: 11%;
+          margin: 0;
+          font-weight: 500;
+        }
+        div{
+          position: absolute;
+          background-color: $mainColor;
+          height: 35px;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
 }
