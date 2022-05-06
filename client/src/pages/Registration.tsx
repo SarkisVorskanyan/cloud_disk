@@ -31,8 +31,8 @@ const RegistrationPage: FC = () => {
                <HelperText message={message} error={error} />
                 <RegistrationForm 
                             sendData={sendData}
-                            title={'Sign up'}
-                            buttonText={'Registration'}
+                            title={'Регистрация'}
+                            buttonText={'Регистрация'}
                     />
             </div>
             

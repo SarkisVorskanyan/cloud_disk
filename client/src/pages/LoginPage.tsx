@@ -25,8 +25,8 @@ const LoginPage: FC = () => {
                 <HelperText message={message} error={error} />
                 <RegistrationForm
                     sendData={sendData}
-                    title={'Sign in'}
-                    buttonText={'Login'}
+                    title={'Логин'}
+                    buttonText={'Вход'}
                     />
             </div>
           

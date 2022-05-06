@@ -1,3 +1,6 @@
+import { UploadFileProgressType } from './../../models/UploadFIleProgressType';
+import { useAppDispatch } from './../hooks/Hooks';
+import { useDispatch } from 'react-redux';
 import { ID } from './../../models/Types';
 import { UploadFilesType } from './../../models/UploadFilesType';
 import { NewPostType } from './../../models/NewPostType';
@@ -5,6 +8,7 @@ import { FileType } from './../../models/FIleType';
 import { instance } from './../api/Api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { DownloadRequest } from '../../models/DownloadResponseType';
+import { changeProgress, setUploadFiles, showUploadModal } from '../reduxers/UploadFiles_reducer';
 
 
 export const fetchFiles = createAsyncThunk(
@@ -44,9 +48,28 @@ export const uploadFile = createAsyncThunk(
         if(parent !== null){
             formData.append('parent', parent)
         }
+        const allUploadFiles: UploadFileProgressType = {
+            id: Date.now(),
+            name: file.name,
+            progress: 0
+        }
+        thunkAPI.dispatch(setUploadFiles(allUploadFiles))
+        thunkAPI.dispatch(showUploadModal(true))
         
         try{
-           const response = await instance.post<FileType>(`/file/upload`, formData)
+           const response = await instance.post<FileType>(`/file/upload`, formData, {
+            onUploadProgress: progressEvent => {
+                const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
+                console.log('total', totalLength)
+                if (totalLength) {
+                    let result: number = Math.round((progressEvent.loaded * 100) / totalLength)
+                    allUploadFiles.progress = result
+                    thunkAPI.dispatch(changeProgress(allUploadFiles))
+                    console.log(allUploadFiles, 'allUploadFiles');
+                    
+                }
+            },
+           })
            return response.data
         }
         catch(e) {
@@ -77,7 +100,6 @@ export const downloadFile = createAsyncThunk(
 export const deleteFile = createAsyncThunk(
     'file/deleteFile',
     async (id: ID, thunkAPI) => {
-        debugger
         try{
             const response = await instance.delete<ID>(`/file/?id=${id}`)
             return response.data
