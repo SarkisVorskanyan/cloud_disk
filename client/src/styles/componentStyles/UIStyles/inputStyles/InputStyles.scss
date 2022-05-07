@@ -20,3 +20,11 @@
     border-radius: 10px;
     border-color: $mainColor;
 }
+
+.search_input_container{
+    input{
+        @include inputField();
+        outline: none;
+    }
+    
+}

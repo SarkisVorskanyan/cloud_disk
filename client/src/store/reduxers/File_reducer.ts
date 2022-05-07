@@ -1,5 +1,5 @@
 import { ID } from './../../models/Types';
-import { fetchFiles, uploadFile, createFoldier, downloadFile, deleteFile } from './../actions/File_action';
+import { fetchFiles, uploadFile, createFoldier, downloadFile, deleteFile, searchFile } from './../actions/File_action';
 import { FileType } from './../../models/FIleType';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import { ToastContainer, toast } from 'react-toastify';
@@ -128,6 +128,20 @@ export const FileSlice = createSlice({
             state.load = false
             state.error = action.payload
             toast.error(state.error)
+        },
+
+        //__________________________
+        [searchFile.pending.type]: (state) => {
+            state.load = true
+        },
+        [searchFile.fulfilled.type]: (state, action: PayloadAction<FileType[]>) => {
+            state.load = false
+            state.files = action.payload
+            state.error = ''
+        },
+        [searchFile.rejected.type]: (state, action: PayloadAction<any>) => {
+            state.load = false
+            state.error = action.payload.response.data.message
         },
         
     }

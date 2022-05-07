@@ -1,0 +1,10 @@
+@import '../../../variables/Variables.scss';
+@import '../../../mixin/Mixin.scss';
+
+.select{
+    @include inputField();
+    option {
+        text-shadow: none; 
+      }
+}
+

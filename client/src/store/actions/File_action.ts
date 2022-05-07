@@ -1,3 +1,5 @@
+import { FetchedFilesResponseType } from './../../models/FetchedFilesResponseType';
+import { CreateUploadFIle } from './../../models/constructors/CreateUploadFile';
 import { UploadFileProgressType } from './../../models/UploadFIleProgressType';
 import { useAppDispatch } from './../hooks/Hooks';
 import { useDispatch } from 'react-redux';
@@ -13,9 +15,22 @@ import { changeProgress, setUploadFiles, showUploadModal } from '../reduxers/Upl
 
 export const fetchFiles = createAsyncThunk(
     'file/fetchFiles',
-    async (createDir: String | null, thunkAPI) => {
+    async (data: FetchedFilesResponseType, thunkAPI) => {
+        const {currentDir, selectedFilter} = data
         try{
-            const response = await instance.get<FileType[]>(`file${createDir ? '?parent=' + createDir : ''}`)
+            let url = ``
+            if(currentDir){
+                url = `?parent=${currentDir}`
+            }
+
+            if(selectedFilter){
+                url = `?sort=${selectedFilter}`
+            }
+
+            if(currentDir && selectedFilter){
+                url = `?parent=${currentDir}&sort=${selectedFilter}`
+            }
+            const response = await instance.get<FileType[]>(`file${url}`)
             return response.data
         }
         catch (e) {
@@ -48,11 +63,8 @@ export const uploadFile = createAsyncThunk(
         if(parent !== null){
             formData.append('parent', parent)
         }
-        const allUploadFiles: UploadFileProgressType = {
-            id: Date.now(),
-            name: file.name,
-            progress: 0
-        }
+        let allUploadFiles: UploadFileProgressType = new CreateUploadFIle(Date.now(), file.name, 0)
+
         thunkAPI.dispatch(setUploadFiles(allUploadFiles))
         thunkAPI.dispatch(showUploadModal(true))
         
@@ -101,7 +113,7 @@ export const deleteFile = createAsyncThunk(
     'file/deleteFile',
     async (id: ID, thunkAPI) => {
         try{
-            const response = await instance.delete<ID>(`/file/?id=${id}`)
+            const response = await instance.delete<ID>(`/file?id=${id}`)
             return response.data
         }
         catch (e: any) {
@@ -109,3 +121,18 @@ export const deleteFile = createAsyncThunk(
         }
     }
 )
+
+export const searchFile = createAsyncThunk(
+    'file/searchFile',
+    async (searchName: string, thunkAPI) => {
+        debugger
+        try{
+            const response = await instance.get<string>(`file/search?search=${searchName}`)
+            return response.data
+        }
+        catch (e: any) {
+            return thunkAPI.rejectWithValue(e.response.data.message)
+        }
+    }
+)
+
