@@ -1,5 +1,6 @@
 import { UploadFileProgressType } from './../../models/UploadFIleProgressType';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { ID } from '../../models/Types';
 
 
 
@@ -28,9 +29,17 @@ export const UploadFileSlice = createSlice({
 
         changeProgress: (state, action: PayloadAction<UploadFileProgressType>) => {
             state.uploadFilesList.map(file => file.id === action.payload.id
-                ? {...file, progress: action.payload.progress }
-                : {...file }
-                )
+                ? file.progress = action.payload.progress
+                : ''
+                )  
+        },
+
+        removeFileOfUploadFilesList: (state, action: PayloadAction<number>) => {
+            state.uploadFilesList.splice(state.uploadFilesList.findIndex((file => file.id === action.payload), 1))
+        },
+
+        resetUploadFilesList: (state) => {
+            state.uploadFilesList.length = 0
         },
     },
     extraReducers: {
@@ -39,6 +48,6 @@ export const UploadFileSlice = createSlice({
 
 })
 
-export const {showUploadModal, setUploadFiles, changeProgress} = UploadFileSlice.actions
+export const {showUploadModal, setUploadFiles, changeProgress, resetUploadFilesList, removeFileOfUploadFilesList} = UploadFileSlice.actions
 
 export default UploadFileSlice.reducer;

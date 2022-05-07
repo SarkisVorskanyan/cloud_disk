@@ -27,7 +27,27 @@ class FileController {
 
     async fetchFiles(req, res){
         try {
-            const files = await File_model.find({user: req.user.id, parent: req.query.parent})
+            const {sort} = req.query
+
+            let files = ''
+            switch (sort) {
+                case 'name':
+                    files = await File_model.find({user: req.user.id, parent: req.query.parent}).sort({name: 1})
+                    break;
+
+                case 'type':
+                    files = await File_model.find({user: req.user.id, parent: req.query.parent}).sort({type: 1})
+                    break;
+                
+                case 'date':
+                    files = await File_model.find({user: req.user.id, parent: req.query.parent}).sort({date: 1})
+                    break;
+            
+                default:
+                    files = await File_model.find({user: req.user.id, parent: req.query.parent})
+                    break;
+            }
+
             return res.json(files)
         } catch (e) {
             console.log(e)
@@ -118,6 +138,18 @@ class FileController {
             console.log(e)
             return res.status(500).json({message: 'Файл не пуст'})
 
+        }
+    }
+
+    async searchFile(req, res){
+        try {
+            const searchName = req.query.search
+            let files = await File_model.find({user: req.user.id})
+            files = files.filter(file => file.name.includes(searchName))
+            return res.json(files)
+        } catch (e) {
+            console.log(e)
+            return res.status(500).json({message: 'Ошибка в сервере'})
         }
     }
 }

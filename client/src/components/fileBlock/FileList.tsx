@@ -1,15 +1,15 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import { FileType } from '../../models/FIleType'
 import '../../styles/pageStyles/homePageStyles/HomePageStyles.scss'
 import emptyFolder from '../../assets/homepage/emptyFolder.png'
 import fullFolder from '../../assets/homepage/fullFolder.png'
-import fileImage from '../../assets/homepage/file.png'
 import moment from 'moment'
 import { ID } from '../../models/Types'
 import { FileImage } from '../../utils/FIleImage'
 import { CheckSizeFile } from '../../utils/CheckSizeFile'
 import {ReactComponent as TrashSvg} from '../../assets/svg/homePageSvgBlock/trashSvg.svg'
 import {ReactComponent as DownloadSvg} from '../../assets/svg/homePageSvgBlock/download.svg'
+import {TransitionGroup, CSSTransition} from 'react-transition-group'
 
 
 
@@ -34,12 +34,21 @@ const FileList: FC <FIleListProps> = ({state = [], openFoldier, downloadFile, op
         setIdForDeleteingFile(id)
         openModalDeleteFile()
     }
+    const nodeRef = useRef(null)
 
 
     return (
         <div style={{paddingBottom: 40}}>
-            {state.map((item, i) => 
-                <div onClick={() => openFoldier(item._id, item.type)} key={i} className='file_container'>
+            <TransitionGroup>
+            {state.map((item, i) =>
+            <CSSTransition
+                timeout={500}
+                classNames={'file'}
+                nodeRef={nodeRef}
+                key={i}
+                exit={false}
+            > 
+                <div onClick={() => openFoldier(item._id, item.type)} className='file_container'>
                     <div className='file_sub_container'>
                        <div className='folder_img'>
                             <img src={`${item.type !== 'dir' ? FileImage(item.type) : item.childs.length ? fullFolder : emptyFolder}`}  />
@@ -70,7 +79,9 @@ const FileList: FC <FIleListProps> = ({state = [], openFoldier, downloadFile, op
                     </div>
                     
                 </div>
+                </CSSTransition>
             )}
+            </TransitionGroup>
         </div>
     )
 }

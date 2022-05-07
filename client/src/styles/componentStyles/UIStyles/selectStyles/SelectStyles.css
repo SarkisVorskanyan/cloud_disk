@@ -1,0 +1,44 @@
+.select {
+  position: relative;
+  -webkit-appearance: button;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: middle;
+  height: 2.2em;
+  margin: 2px;
+  padding: 0.3em 0.6em;
+  background: white;
+  border: 1px solid #aaaaaa;
+  border-radius: 0.3em;
+  -webkit-box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
+          box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  overflow: hidden;
+  text-shadow: 0 1px 0 white;
+  -webkit-transition: box-shadow 200ms, border-color 200ms;
+  -webkit-transition: border-color 200ms, -webkit-box-shadow 200ms;
+  transition: border-color 200ms, -webkit-box-shadow 200ms;
+  transition: box-shadow 200ms, border-color 200ms;
+  transition: box-shadow 200ms, border-color 200ms, -webkit-box-shadow 200ms;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.select option {
+  text-shadow: none;
+}
+
+select:not([size]):hover {
+  border-color: #c8c8c8;
+  -webkit-box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 0 3px #ffff88;
+          box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 0 3px #ffff88;
+}
+
+select:not([size]):focus {
+  -webkit-box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 4px #66ccff;
+          box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 4px #66ccff;
+}
+/*# sourceMappingURL=SelectStyles.css.map */

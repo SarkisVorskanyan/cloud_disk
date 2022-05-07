@@ -9,9 +9,9 @@ interface UploadBtnProps {
 
 const UploadBtn: FC <UploadBtnProps> = ({background, someFunction, label}) => {
     return (
-        <div className='uploadCOntainer'>
+        <div className='uploadContainer'>
             <label htmlFor='input' style={{background}} className='main_button'>{label}</label>
-            <input onChange={(e: React.ChangeEvent<HTMLInputElement>) => someFunction(e)} multiple type={'file'} id='input' />
+            <input className='upload_input' onChange={(e: React.ChangeEvent<HTMLInputElement>) => someFunction(e)} multiple type={'file'} id='input' />
         </div>
     )
 }

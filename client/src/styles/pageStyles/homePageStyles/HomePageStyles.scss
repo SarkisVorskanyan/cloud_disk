@@ -1,10 +1,34 @@
 @import '../../mixin/Mixin.scss';
 @import '../../variables/Variables.scss';
 
-.button_block{
-    margin-bottom: 20px;
-    display: flex;
+.file-enter-active{
+    animation: file-enter 500ms forwards;
 }
+
+@keyframes file-enter {
+    0%{
+        opacity: 0;
+        transform: translateY(-50%);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.button_block{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    .button_block_first_block{
+        display: flex;
+    }
+    .button_block_last_block{
+        @include centerContainer()
+    }
+    
+}
+
 
 .file_container{
     width: 100%;
