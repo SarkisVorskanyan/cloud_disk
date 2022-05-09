@@ -2,6 +2,9 @@ import File_model from "../models/File_model.js"
 import User_model from "../models/User_model.js"
 import FileService from "../service/FileService.js"
 import fs from 'fs'
+import * as uuid from 'uuid'
+import { json } from "express"
+import { User_dto } from "../dto/User_dto.js"
 
 class FileController {
     async createDir(req, res){
@@ -150,6 +153,36 @@ class FileController {
         } catch (e) {
             console.log(e)
             return res.status(500).json({message: 'Ошибка в сервере'})
+        }
+    }
+
+    async uploadAvatar(req, res){
+        try {
+            const file = req.files.file
+            const user = await User_model.findById(req.user.id)
+            const avatarName = uuid.v4() + '.jpg'
+            file.mv(`${process.env.STATIC_PATH}\\${avatarName}`)
+            user.avatar = avatarName
+            await user.save()
+            return res.json(user)
+        } catch (e) {
+            console.log(e)
+            return res.status(500).json({message: 'Ошибка в сервере'})
+        }
+    }
+
+    async deleteAvatar(req, res){
+        try {
+           // console.log(user);
+            const user = await User_model.findById(req.user.id)
+            fs.unlinkSync(`${process.env.STATIC_PATH}\\${user.avatar}`)
+            user.avatar = null
+            await user.save()
+            const userDto = new User_dto(user)
+            return res.json(userDto)
+        } catch (e) {
+            console.log(e)
+            return res.status(500).json({message: 'Не удалос удалить аватарку'})
         }
     }
 }

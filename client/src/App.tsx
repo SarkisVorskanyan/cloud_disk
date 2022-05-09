@@ -10,6 +10,7 @@ import { auth } from './store/actions/Auth_action';
 import ModalCreateFoldier from './components/UI/modals/ModalCreateFoldier';
 import { resetFiles } from './store/reduxers/File_reducer';
 import Toaster from './components/UI/toasters/Toaster';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
 
@@ -30,9 +31,10 @@ function App() {
         <Header />
       <div className='app'>
           <Routes>
+            <Route path='/' element={!isAuth ? <Navigate to='/registration' /> : <HomePage />} />
             <Route path='/registration' element={isAuth ? <Navigate to='/' /> : <RegistrationPage />} />
             <Route path='/login' element={isAuth ? <Navigate to='/' /> : <LoginPage />} />
-            <Route path='/' element={!isAuth ? <Navigate to='/registration' /> : <HomePage />} />
+            <Route path='/profile' element={!isAuth ? <Navigate to='/registration' /> : <ProfilePage />} />
         </Routes>
       </div>
     </div>

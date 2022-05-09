@@ -1,14 +1,18 @@
-import React, { FC, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { FC } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks/Hooks";
 import { logOut } from "../store/reduxers/Auth_reducer";
 import { resetStackDir, setCurrentDir } from "../store/reduxers/File_reducer";
 import '../styles/componentStyles/headerStyles/Header.scss'
+import defaultImg from '../assets/common/avatar.jpg'
+import { AVATAR_URL } from "../config/Config";
 
 const Header: FC = () => {
     const {error, message, user, isAuth} = useAppSelector(state => state.auth)
     const {stackDir} = useAppSelector(state => state.file)
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+    const avatar = `${AVATAR_URL}${user?.user.avatar}`
 
     const logout = () => {
         dispatch(logOut())
@@ -17,6 +21,10 @@ const Header: FC = () => {
     const retunrHomePage = () => {
         dispatch(resetStackDir())
         dispatch(setCurrentDir(null))
+    }
+
+    const goToProfile = () => {
+        navigate('/profile')
     }
 
 
@@ -37,6 +45,9 @@ const Header: FC = () => {
                     {!isAuth && <li>
                         <Link className="link" to="registration">Регистрация</Link>
                     </li> }
+                    {isAuth && <li onClick={goToProfile}>
+                        <img className="avatar" src={avatar ? avatar : defaultImg} alt='avatar' />
+                    </li>}
                     {isAuth && <li onClick={logout}>
                         <p className="link">Выход</p>
                     </li>}

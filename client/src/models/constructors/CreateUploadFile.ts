@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export class CreateUploadFIle {
     id: number
     name: string
