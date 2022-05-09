@@ -1,3 +1,4 @@
+import { UserType } from './../../models/UserDataType';
 import { AuthDataType } from './../../models/AuthDataType';
 import { instance } from './../api/Api';
 import { createAsyncThunk } from "@reduxjs/toolkit"
@@ -37,6 +38,33 @@ export const auth = createAsyncThunk(
         }
         catch (e) {
             return thunkAPI.rejectWithValue(e)
+        }
+    }
+)
+
+export const createAvatar = createAsyncThunk(
+    'auth/createAvatar',
+    async (data: Object, thunkAPI) => {
+        try{
+            const response = await instance.post<File>(`file/avatar`, data)
+            return response.data
+        }
+        catch (e: any) {
+            return thunkAPI.rejectWithValue(e.response.data.message)
+        }
+    }
+)
+
+export const deleteAvatar = createAsyncThunk(
+    'auth/createAvatar',
+    async (_, thunkAPI) => {
+        debugger
+        try{
+            const response = await instance.delete<UserType>(`file/avatar`)
+            return response.data
+        }
+        catch (e: any) {
+            return thunkAPI.rejectWithValue(e.response.data.message)
         }
     }
 )

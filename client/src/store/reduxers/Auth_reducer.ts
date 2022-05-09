@@ -1,6 +1,10 @@
-import { UserDataType } from './../../models/UserDataType';
-import { login, registration, auth } from './../actions/Auth_action';
+import { UserDataType, UserType } from './../../models/UserDataType';
+import { login, registration, auth, createAvatar, deleteAvatar } from './../actions/Auth_action';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure()
+
 
 interface AuthState {
     load: boolean,
@@ -54,7 +58,7 @@ export const AuthSlice = createSlice({
         [login.pending.type]: (state) => {
             state.load = true
         },
-        [login.fulfilled.type]: (state, action: PayloadAction<any>) => {
+        [login.fulfilled.type]: (state, action: PayloadAction<UserDataType>) => {
             state.load = false
             state.user = action.payload
             localStorage.setItem('token', action.payload.token)
@@ -82,6 +86,37 @@ export const AuthSlice = createSlice({
             state.load = false
             state.error = action.payload.response.data.message
             state.message = action.payload.response.data.message
+        },
+
+        //________________
+        [createAvatar.pending.type]: (state) => {
+            state.load = true
+        },
+        [createAvatar.fulfilled.type]: (state, action: PayloadAction<UserDataType>) => {
+            state.load = false
+            state.user = action.payload
+            state.error = ''
+            state.message = ''
+        },
+        [createAvatar.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.load = false
+            state.error = action.payload
+            toast.error(state.error)
+        },
+
+         //________________
+         [deleteAvatar.pending.type]: (state) => {
+            state.load = true
+        },
+        [deleteAvatar.fulfilled.type]: (state, action: PayloadAction<UserDataType>) => {
+            state.load = false
+            state.user = action.payload
+            toast.success(state.success)
+        },
+        [deleteAvatar.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.load = false
+            state.error = action.payload
+            toast.error(state.error)
         },
         
     }

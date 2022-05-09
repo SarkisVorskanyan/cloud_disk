@@ -10,5 +10,7 @@ router.get('', Auth_middleware, FileController.fetchFiles)
 router.get('/download', Auth_middleware, FileController.downloadFile)
 router.delete('/', Auth_middleware, FileController.deleteFile)
 router.get('/search', Auth_middleware, FileController.searchFile)
+router.post('/avatar', Auth_middleware, FileController.uploadAvatar)
+router.delete('/avatar', Auth_middleware, FileController.deleteAvatar)
 
 export default router

@@ -19,6 +19,7 @@
     @include centerContainer();
     ul{
        display: flex;
+       align-items: center;
        li{
            list-style-type: none;
            p{
@@ -43,3 +44,12 @@
     }
 }
 
+.avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    &:hover{
+        transform: scale(1.2);
+    }
+}

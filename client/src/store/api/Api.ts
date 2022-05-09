@@ -1,9 +1,10 @@
 import axios  from 'axios';
+import { API_URL } from '../../config/Config';
 
 const token: string | null = localStorage.getItem('token') ? localStorage.getItem('token') : null;
 
 export const instance = axios.create({
-    baseURL: "http://localhost:5000/api",
+    baseURL: `${API_URL}`,
     headers: {
         // 'Content-Type' : 'multipart/form-data; application/x-www-form-urlencoded; charset=UTF-8;application/json',
         // 'Access-Control-Allow-Origin' : '*',
